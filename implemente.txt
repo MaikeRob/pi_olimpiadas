@@ -1,0 +1,1 @@
+--> Um modo de saber que função de qual modulo imprimiu algo na tela
