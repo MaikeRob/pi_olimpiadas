@@ -10,13 +10,15 @@ def getCountryData():
 
     if response.status_code == 200:
         country_data = response.json()
+        return country_data
     elif response.status_code == 401:
         error = response.json().get('error')
         print(error)
+        return
     elif response.status_code == 403:
         error = response.json().get('error')
         print(error)
-
+        return
     else:
         print("Erro não previsto")
 
