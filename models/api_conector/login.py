@@ -15,7 +15,8 @@ def autenticator(url_login, username, password):
         error = response.json().get('error')
         print(f"Erro no login: {error}")
     elif response.status_code == 403:
-        print("403 : Proibido")
+        error = response.json().get('error')
+        print(f"Proibido : {error}")
     else:
         print("Erro não previsto")
 
