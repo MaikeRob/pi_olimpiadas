@@ -1,6 +1,6 @@
 import json
 
-from models.api_conector import autenticator
+import models.api_conector.login as login
 
 #Carrega as credencias de login
 with open('/home/maike/projetos/pi_olimpiadas/models/api_conector/credentials.json','r') as arquivo:
@@ -9,4 +9,4 @@ with open('/home/maike/projetos/pi_olimpiadas/models/api_conector/credentials.js
 api_url = 'https://olimpiadasiesb-7780607c931d.herokuapp.com/'
 
 
-autenticator(api_url, credentials['username'], credentials['password'])
+login.autenticator(api_url, credentials['username'], credentials['password'])
