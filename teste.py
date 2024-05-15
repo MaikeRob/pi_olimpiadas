@@ -1,3 +1,3 @@
-import models.api_conector
+from models.api_conector.paises import getCountryData
 
 ola = 8

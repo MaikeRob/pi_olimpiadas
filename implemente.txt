@@ -1,1 +1,3 @@
 --> Um modo de saber que função de qual modulo imprimiu algo na tela
+--> Forma de validar se o login ja foi feito
+--> api_db vai transformar os dados recebidos de api_conector para um banco de dados. pode usar pandas para conversão automatica
