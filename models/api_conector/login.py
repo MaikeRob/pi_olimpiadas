@@ -1,3 +1,4 @@
+import configs
 import requests
 
 #Realiza o login na api
