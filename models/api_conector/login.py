@@ -1,8 +1,7 @@
 import configs
 import requests
 
-import models.api_conector.login as login
-
+volei_id = "6601ecda7d406070201176ab"
 authentication_done = False
 token = None
 

@@ -10,7 +10,7 @@ api_country_url = f'{api_base_url}/paises'
 
 def getCountryData():
 
-    headers = {'Authorization': f'Bearer {login.token}'}
+    headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}
     
     response = requests.get(api_country_url, headers=headers)
 
