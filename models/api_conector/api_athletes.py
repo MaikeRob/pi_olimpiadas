@@ -21,6 +21,6 @@ def getAthletesData():
             print(f"{error}\nErro na comunicação com a API...")
             exit(1)
         case _:
-            print("Erro não previsto")
+            #print(f"Erro não previsto - {response.status_code}")
             print(f"Mensagem do servidor : {response.text}")
             exit(1)
