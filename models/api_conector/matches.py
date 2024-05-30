@@ -3,9 +3,8 @@ import datetime
 
 import configs
 import models.api_conector.login as login
-from . import api_base_url
 
-api_match_url = f'{api_base_url}/esportes/{login.volei_id}/partidas'
+api_match_url = f'{login.api_base_url}/esportes/{login.volei_id}/partidas'
 
 #Não funciona, erro interno
 def scheduleMatch(date=None,local='Estadio Olimpico',fase=None):
