@@ -1,11 +1,11 @@
 import json
 
-from models.api_conector import login, countries, matches, athletes
+from api_conector import login, countries, matches, athletes
 import configs
 
 
 #Carrega as credencias de login
-with open('models/api_conector/credentials.json','r') as arquivo:
+with open('api_conector/credentials.json','r') as arquivo:
     credentials = json.load(arquivo)
 
 #Realiza o login

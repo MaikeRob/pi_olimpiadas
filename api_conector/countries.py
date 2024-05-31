@@ -1,7 +1,7 @@
 import configs
 import requests
 
-import models.api_conector.login as login
+import api_conector.login as login
 
 api_country_url = f'{login.api_base_url}/paises'
 

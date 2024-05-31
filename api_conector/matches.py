@@ -2,7 +2,7 @@ import requests
 import datetime
 
 import configs
-import models.api_conector.login as login
+import api_conector.login as login
 
 api_match_url = f'{login.api_base_url}/esportes/{login.volei_id}/partidas'
 
