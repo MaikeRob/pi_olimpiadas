@@ -2,9 +2,9 @@ import requests
 
 import configs
 import models.api_conector.login as login
-from . import api_base_url
 
-api_country_url = f'{api_base_url}/atletas'
+
+api_country_url = f'{login.api_base_url}/atletas'
 
 def getAthletesData():
 

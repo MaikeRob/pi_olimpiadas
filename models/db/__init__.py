@@ -3,12 +3,15 @@ import pandas
 import sqlite3
 
 import configs
-from models.api_conector import api_athletes, api_countries
+import models.api_conector as api
 
 #Chama dados
-country_data = api_countries.getCountryData()
+country_data = api.countries.getCountryData()
 #athletes_data = api_athletes.getAthletesData()
 
+
+
+#Transforma os dados em um data frame do pandas
 country_dataFrame = pandas.DataFrame(country_data)
 #athletes_dataFrame = pandas.DataFrame(athletes_data)
 
