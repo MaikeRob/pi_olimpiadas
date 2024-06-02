@@ -1,5 +1,6 @@
 import api_conector
 import db
 
-print(api_conector.countries.getCountryData())
-print(api_conector.athletes.getAthletesData())
+#api_conector.matches.scheduleMatch(fase='final')
+print(api_conector.matches.getMatchesData())
+api_conector.matches.deleteMatch("665c7c270b23098f11fe94b9")

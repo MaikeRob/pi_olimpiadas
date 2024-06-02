@@ -48,4 +48,5 @@ def getVoleiID():
             #print(f"Mensagem do servidor : {response.text}")
             exit(1)
 
-voleibol_id = getVoleiID
+
+voleibol_id = "6601ecda7d406070201176ab"
