@@ -4,13 +4,13 @@ import configs
 import api_conector.login as login
 
 
-api_country_url = f'{login.api_base_url}/atletas'
+api_athlete_url = f'{login.api_base_url}/atletas'
 
 def getAthletesData():
 
     headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}
 
-    response = requests.get(api_country_url, headers=headers)
+    response = requests.get(api_athlete_url, headers=headers)
 
     match response.status_code:
         case 200:
@@ -24,3 +24,11 @@ def getAthletesData():
             #print(f"Erro não previsto - {response.status_code}")
             print(f"Mensagem do servidor : {response.text}")
             exit(1)
+
+def registerAthlete(nome, idade):
+
+    api_register_athlete_url = f'{login.api_base_url}/{id_pais}/{id_esporte}'
+
+    headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}
+
+    response = requests.post(api_register_athlete_url, headers=headers)

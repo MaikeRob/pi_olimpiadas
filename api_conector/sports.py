@@ -1,29 +1,21 @@
-import requests
-import datetime
-
 import configs
+import requests
+
 import api_conector.login as login
-import api_conector.sports as sports
 
-api_match_url = f'{login.api_base_url}/esportes/{sports.voleibol_id}/partidas'
+api_sports_url = f'{login.api_base_url}/esportes'
 
-#Não funciona, erro interno
-def scheduleMatch(date=None,local='Estadio Olimpico',fase=None):
+
+def getSportsData():
 
     headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}
     
-    current_time = datetime.datetime.now().time().isoformat()
-    
-    data = {'date':f'{date if date else current_time}', 
-            'local':f'{local}', 
-            'fase':'teste'
-    }
-
-    response = requests.post(api_match_url, headers=headers, data=data)
+    response = requests.get(api_sports_url, headers=headers)
 
     match response.status_code:
         case 200:
-            print(f'{response.json()}')
+            sports_data = response.json()
+            return sports_data
         case 401 | 403: 
             error = response.json().get('error')
             print(f"{error}\nErro na comunicação com a API...")
@@ -33,17 +25,21 @@ def scheduleMatch(date=None,local='Estadio Olimpico',fase=None):
             #print(f"Mensagem do servidor : {response.text}")
             exit(1)
 
-#Não funciona, erro interno
-def getMatchesData():
+def getVoleiID():
 
+    print(login.token)
     headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}
     
-    response = requests.get(api_match_url, headers=headers)
+    response = requests.get(api_sports_url, headers=headers)
 
     match response.status_code:
         case 200:
-            country_data = response.json()
-            return country_data
+            sports_data = response.json()
+            for sport in sports_data:
+                if sport.get('nome') == 'vôlei':
+                    return sport.get('_id')
+            print("Esporte 'vôlei' não encontrado.")
+            return None
         case 401 | 403: 
             error = response.json().get('error')
             print(f"{error}\nErro na comunicação com a API...")
@@ -52,3 +48,5 @@ def getMatchesData():
             print(f"Erro não previsto - {response.status_code}")
             #print(f"Mensagem do servidor : {response.text}")
             exit(1)
+
+voleibol_id = None

@@ -1,10 +1,11 @@
 import json
 
-from api_conector import login, countries, matches, athletes
+from api_conector import login, countries, matches, athletes, sports
 import configs
 
-
+from api_conector import login
 #Carrega as credencias de login
+
 with open('api_conector/credentials.json','r') as arquivo:
     credentials = json.load(arquivo)
 
@@ -12,6 +13,7 @@ with open('api_conector/credentials.json','r') as arquivo:
 if not login.authentication_done:
     login.token = login.autenticator(login.api_login_url, credentials['username'], credentials['password'])
     login.authenticatior_done = True
+    
 else:
     pass
     

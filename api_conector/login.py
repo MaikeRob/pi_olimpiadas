@@ -1,7 +1,6 @@
 import configs
 import requests
 
-volei_id = "6601ecda7d406070201176ab"
 api_base_url = 'https://olimpiadasiesb-7780607c931d.herokuapp.com'
 api_login_url = f'{api_base_url}/login/token'
 
