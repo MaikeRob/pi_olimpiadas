@@ -5,8 +5,6 @@ import api_conector.login as login
 
 api_country_url = f'{login.api_base_url}/paises'
 
-
-
 def getCountryData():
 
     headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}

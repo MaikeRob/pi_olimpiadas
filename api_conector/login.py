@@ -1,12 +1,15 @@
 import configs
 import requests
+import json
 
-volei_id = "6601ecda7d406070201176ab"
 api_base_url = 'https://olimpiadasiesb-7780607c931d.herokuapp.com'
 api_login_url = f'{api_base_url}/login/token'
 
 authentication_done = False
-token = None
+with open('api_conector/credentials.json','r') as arquivo:
+    credentials = json.load(arquivo)
+
+token = credentials['token']
 
 #Realiza o login na api
 def autenticator(url_login, username, password):
