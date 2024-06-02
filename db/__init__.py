@@ -4,12 +4,20 @@ import sqlite3
 
 import configs
 import api_conector as api
+from . import queries
 
 connection = sqlite3.connect('db/aplication_databank.db')
 
-# Criar as tabelas
+# Criar as tabelas 
+
+connection.executescript('''
+DROP TABLE IF EXISTS esportes;
+DROP TABLE IF EXISTS atletas;
+DROP TABLE IF EXISTS paises;
+''')
+
 connection.execute('''
-CREATE TABLE IF NOT EXISTS esportes (
+CREATE TABLE esportes (
     _id TEXT PRIMARY KEY NOT NULL,
     nome TEXT UNIQUE NOT NULL,
     coletivo TEXT
@@ -17,7 +25,7 @@ CREATE TABLE IF NOT EXISTS esportes (
 ''')
 
 connection.execute('''
-CREATE TABLE IF NOT EXISTS paises (
+CREATE TABLE paises (
     _id TEXT PRIMARY KEY NOT NULL,
     nome TEXT UNIQUE NOT NULL,
     sigla TEXT NOT NULL,
@@ -26,7 +34,7 @@ CREATE TABLE IF NOT EXISTS paises (
 ''')
 
 connection.execute('''
-CREATE TABLE IF NOT EXISTS atletas (
+CREATE TABLE atletas (
     _id TEXT PRIMARY KEY NOT NULL,
     pais_id TEXT NOT NULL,
     pais TEXT,
@@ -53,9 +61,9 @@ sports_dataFrame = pandas.DataFrame(sports_data)
 
 
 #Implementa dados no banco
-country_dataFrame.to_sql('paises', connection, if_exists='replace', index=False)
-athletes_dataFrame.to_sql('atletas', connection, if_exists='replace', index=False)
-sports_dataFrame.to_sql('esportes', connection, if_exists='replace', index=False)
+country_dataFrame.to_sql('paises', connection, if_exists='append', index=False)
+athletes_dataFrame.to_sql('atletas', connection, if_exists='append', index=False)
+sports_dataFrame.to_sql('esportes', connection, if_exists='append', index=False)
 
 
-connection.close
+connection.close()
