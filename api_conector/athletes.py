@@ -25,10 +25,10 @@ def getAthletesData():
             print(f"Mensagem do servidor : {response.text}")
             exit(1)
 
-def registerAthlete(nome, idade):
+# def registerAthlete(nome, idade):
 
-    api_register_athlete_url = f'{login.api_base_url}/{id_pais}/{id_esporte}'
+#     api_register_athlete_url = f'{login.api_base_url}/{id_pais}/{id_esporte}'
 
-    headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}
+#     headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}
 
-    response = requests.post(api_register_athlete_url, headers=headers)
+#     response = requests.post(api_register_athlete_url, headers=headers)

@@ -1,5 +1,5 @@
 import api_conector
 import db
 
-ola = api_conector.sports.getVoleiID()
-print(ola)
+print(api_conector.countries.getCountryData())
+print(api_conector.athletes.getAthletesData())

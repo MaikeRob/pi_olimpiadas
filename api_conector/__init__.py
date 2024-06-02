@@ -13,7 +13,9 @@ with open('api_conector/credentials.json','r') as arquivo:
 if not login.authentication_done:
     login.token = login.autenticator(login.api_login_url, credentials['username'], credentials['password'])
     login.authenticatior_done = True
-    
+    credentials['token'] = login.token
+    with open('api_conector/credentials.json', 'w', encoding='utf-8') as arquivo:
+        json.dump(credentials, arquivo, ensure_ascii=False, indent=4)
+        
 else:
     pass
-    

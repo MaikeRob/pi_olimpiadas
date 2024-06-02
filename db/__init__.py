@@ -42,20 +42,20 @@ CREATE TABLE IF NOT EXISTS atletas (
 
 #Chama dados
 country_data = api.countries.getCountryData()
-#athletes_data = api.athletes.getAthletesData()
+athletes_data = api.athletes.getAthletesData()
 sports_data = api.sports.getSportsData()
 
 
 #Transforma os dados em um data frame do pandas
 country_dataFrame = pandas.DataFrame(country_data)
-#athletes_dataFrame = pandas.DataFrame(athletes_data)
+athletes_dataFrame = pandas.DataFrame(athletes_data)
 sports_dataFrame = pandas.DataFrame(sports_data)
 
 
 #Implementa dados no banco
-country_dataFrame.to_sql('paises', connection, if_exists='append', index=False)
-#athletes_dataFrame.to_sql('atletas', connection, if_exists='append', index=False)
-sports_dataFrame.to_sql('esportes', connection, if_exists='append', index=False)
+country_dataFrame.to_sql('paises', connection, if_exists='replace', index=False)
+athletes_dataFrame.to_sql('atletas', connection, if_exists='replace', index=False)
+sports_dataFrame.to_sql('esportes', connection, if_exists='replace', index=False)
 
 
 connection.close

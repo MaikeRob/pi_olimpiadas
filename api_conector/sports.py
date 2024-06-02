@@ -27,7 +27,6 @@ def getSportsData():
 
 def getVoleiID():
 
-    print(login.token)
     headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}
     
     response = requests.get(api_sports_url, headers=headers)
@@ -49,4 +48,4 @@ def getVoleiID():
             #print(f"Mensagem do servidor : {response.text}")
             exit(1)
 
-voleibol_id = None
+voleibol_id = getVoleiID
