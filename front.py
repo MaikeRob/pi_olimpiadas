@@ -2,8 +2,45 @@ import tkinter as tk
 from tkinter import messagebox
 from threading import Thread
 import time
+from difflib import get_close_matches
 
+import db.queries as db
+import api_conector as api
 
+# Times cadastrados
+teams = db.getCountries()
+root = tk.Tk()
+
+class Validator():
+    def __init__(self, root, validation_list, entry_widget, label_widget, entry_var):
+        validantion_tcl_function = (root.register(self.validate), '%P', '%S', '%v')
+        self.validation_list = validation_list
+        self.entry_widget = entry_widget
+        self.entry_var = entry_var
+        self.label_widget = label_widget
+        entry_widget.config(
+            validate='key', 
+            validatecommand=validantion_tcl_function
+        )
+        
+    def validate(self, value_if_allowed, text, validation_type):
+        if value_if_allowed in self.validation_list:
+            self.entry_widget.config(text='', fg="green")
+            self.entry_var.set(value_if_allowed)
+            self.label_widget.config(text="")
+        else:
+            most_closer = self.findCloser(value_if_allowed, self.validation_list)
+            if most_closer:
+                self.label_widget.config(text=f"Você quis dizer: {most_closer}?", fg="orange")
+                self.entry_widget.config(fg="black")
+            else:
+                self.label_widget.config(text=f"Nada correspondente.", fg="red")
+        return True
+    
+    def findCloser(self, entry_string, validation_list):
+        matches = get_close_matches(entry_string, validation_list, n=1)
+        return matches[0] if matches else None
+        
 class StartScreen:
     def __init__(self, master):
         self.master = master
@@ -13,25 +50,6 @@ class StartScreen:
         self.master.resizable(True, True)
         self.master.minsize(width=1080, height=720)
         
-
-        # Times cadastrados
-        self.teams = [
-            "França",
-            "Brasil",
-            "Alemanha",
-            "Estados Unidos",
-            "Japão",
-            "Canadá",
-            "Polônia",
-            "Peru",
-            "Bolívia",
-            "Alemanha",
-            "Iuguslavia Central",
-            "Republica Democratica do Congo",
-            "Italia",
-            "Espanha",
-            "Mexico",
-        ]
 
         # Frame Principal da tela
         self.frame_startscreen = tk.Frame(master, bg="#E7E7EC")
@@ -45,59 +63,47 @@ class StartScreen:
         )
         self.team1_label.place(relx=0.083, rely=0.204, relwidth=0.218, relheight=0.043)
 
-        self.team1_var = tk.StringVar(master)
-        self.team1_var.set(self.teams[0])  # Definir o primeiro time como padrão
-        self.team1_option = tk.OptionMenu(
+        self.team1_var = tk.StringVar()
+        self.team1_var.set(teams[0])  # Definir o primeiro time como padrão
+        self.team1_entry = tk.Entry(
             self.frame_startscreen,
-            self.team1_var,
-            *self.teams,
-            command=self.update_team2,
+            textvariable=self.team1_var,
+            font=("", 15)
         )
-        self.team1_option.config(
-            bg="#040404",
-            fg="white",
-            activebackground="#5B5B5B",
-            activeforeground="white",
-            font=("", 15),
-            border=0,
+        self.team1_entry.place(relx=0.109, rely=0.279, relheight=0.105)
+        self.team1_validation_label = tk.Label(
+            self.frame_startscreen,
+            text="",
+            font=("", 10),
         )
-        self.team1_option["menu"].config(
-            bg="#040404",
-            fg="white",
-            activebackground="#5B5B5B",
-            activeforeground="white",
-            font=("", 15),
-        )
-        self.team1_option.place(relx=0.109, rely=0.279, relheight=0.105)
+        validator_team1 = Validator(root, teams, self.team1_entry, self.team1_validation_label, self.team1_var)
+        self.team1_validation_label.place(relx=0.109, rely=0.389, relheight=0.060)
 
-        self.team2_var = tk.StringVar(master)
-        self.team2_option = tk.OptionMenu(self.frame_startscreen, self.team2_var, "")
-        self.team2_option.config(
-            bg="#040404",
-            fg="white",
-            activebackground="#5B5B5B",
-            activeforeground="white",
-            font=("", 15),
-            border=0,
+        self.team2_var = tk.StringVar()
+        self.team2_var.set(teams[-1])
+        self.team2_entry = tk.Entry(
+            self.frame_startscreen,
+            textvariable=self.team2_var,
+            font=("", 15)
         )
-        self.team2_option["menu"].config(
-            bg="#040404",
-            fg="white",
-            activebackground="#5B5B5B",
-            activeforeground="white",
-            font=("", 15),
+        self.team2_entry.place(relx=0.393, rely=0.279, relheight=0.105)
+        self.team2_validation_label = tk.Label(
+            self.frame_startscreen,
+            text="",
+            font=("", 10)
         )
-        self.team2_option.place(relx=0.393, rely=0.279, relheight=0.105)
+        validator_team2 = Validator(root, teams, self.team2_entry, self.team2_validation_label, self.team2_var)
+        self.team2_validation_label.place(relx=0.393, rely=0.389, relheight=0.060)
 
         # Escolha de tipo de partida
         self.game_type_label = tk.Label(
             self.frame_startscreen, text="Tipo de partida:", bg="#E7E7EC", font=("", 15)
         )
         self.game_type_label.place(
-            relx=0.083, rely=0.436, relwidth=0.192, relheight=0.045
+            relx=0.083, rely=0.470, relwidth=0.192, relheight=0.045
         )
 
-        self.game_type_var = tk.StringVar(master)
+        self.game_type_var = tk.StringVar()
         self.game_type_var.set("Amistosa")  # Definir amistosa como padrão
         self.game_type_option = tk.OptionMenu(
             self.frame_startscreen, self.game_type_var, "Amistosa", "Profissional"
@@ -117,7 +123,7 @@ class StartScreen:
             activeforeground="white",
             font=("", 15),
         )
-        self.game_type_option.place(relx=0.109, rely=0.5, relheight=0.105)
+        self.game_type_option.place(relx=0.109, rely=0.534, relheight=0.105)
 
         self.start_button = tk.Button(
             self.frame_startscreen,
@@ -137,7 +143,7 @@ class StartScreen:
            
     def update_team2(self, *args):
         selected_team = self.team1_var.get()
-        self.team2_options = [team for team in self.teams if team != selected_team]
+        self.team2_options = [team for team in teams if team != selected_team]
         self.team2_var.set(
             self.team2_options[0]
         )  # Definir o primeiro time disponível como padrão
@@ -147,9 +153,9 @@ class StartScreen:
             menu.add_command(label=team, command=tk._setit(self.team2_var, team))
 
         #Calcula a posição X do botão team2_option
-        self.frame_startscreen.update()
-        x_position = self.team1_option.winfo_width()+163#Constante
-        self.team2_option.place(relx=x_position/810, rely=0.279, relheight=0.105)
+        # self.frame_startscreen.update()
+        # x_position = self.team1_option.winfo_width()+163#Constante
+        # self.team2_option.place(relx=x_position/810, rely=0.279, relheight=0.105)
         
             
 
@@ -157,6 +163,10 @@ class StartScreen:
         team1_name = self.team1_var.get()
         team2_name = self.team2_var.get()
         game_type = self.game_type_var.get()
+
+        if game_type == "Profissional":
+            match_id = api.matches.scheduleMatch(fase="final", country1_id=db.getCountrieID(team1_name), country2_id=db.getCountrieID(team2_name))
+            api.matches.deleteMatch(match_id)
 
         game_window = tk.Toplevel(self.master)
         app = App(game_window, team1_name, team2_name, game_type)
@@ -446,7 +456,5 @@ class App:
         self.master.destroy()  # Destruir a janela atual do jogo
         root.deiconify()  # Mostrar a janela principal novamente
 
-
-root = tk.Tk()
 start_screen = StartScreen(root)
 root.mainloop()

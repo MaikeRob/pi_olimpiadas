@@ -10,15 +10,13 @@ api_get_matchs_url = f'{login.api_base_url}/esportes/partidas'
 
 
 def scheduleMatch(date=None,local='Estadio Olimpico do Brasil',fase=None, country1_id=None, country2_id=None):
-    print(sports.voleibol_id)
 
     headers = {'Authorization': f'Bearer {login.token}','Content-Type': 'application/json'}
     
-    current_time = datetime.datetime.now().time().isoformat()
-    print(current_time)
-
+    current_time = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S') + '-03:00'
+    
     data = {
-    'date': f'{date if date else current_time}', 
+    'data': f'{date if date else current_time}', 
     'local': f'{local}', 
     'fase': f'{fase}',
     'participantes': [
@@ -40,7 +38,7 @@ def scheduleMatch(date=None,local='Estadio Olimpico do Brasil',fase=None, countr
             exit(1)
         case _:
             print(f"Erro não previsto - {response.status_code}")
-            #print(f"Mensagem do servidor : {response.text}")
+            print(f"Mensagem do servidor : {response.text}")
             exit(1)
 
 

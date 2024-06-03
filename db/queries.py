@@ -11,11 +11,21 @@ def query(query_string, params=None):
     else:
         result = cursor.execute(query_string)
     
-    result = [row[0] for row in cursor.fetchall()]
-
+    rows = cursor.fetchall()
+    if len(rows) == 1:  
+        result = rows[0][0]  
+    else:
+        result = [row[0] for row in rows]  
+        
     connection.close()
     return result
 
+
+def getCountrieID(countrie_name):
+    return query("SELECT _id FROM paises WHERE nome = ?", (countrie_name,))
+
+def getCountrie(countrie_id):
+    return query("SELECT nome FROM paises WHERE _id = ?", (countrie_id,))
 
 def getCountries():
     return query("SELECT nome FROM paises")
